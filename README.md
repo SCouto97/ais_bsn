@@ -1,6 +1,6 @@
 # Introduction
 
-In this page, we provide information on how to install the Body Sensor Network (BSN) implementation for the IEEE Computer Special Issue on Formal Methods Applied to Cyber-Physical Systems. In this extension of the BSN, we apply the principles of Artificial Immune Systems to safely and systematically devise the observers automata at design time, which are further implemented as runtime monitors. An explanation of the UPPAAL models including the observers can be found [here](https://github.com/lesunb/ais_bsn/wiki/UPPAAL). Moreover, the performance of our experiments are detailed [here](https://github.com/lesunb/ais_bsn/wiki/Experiments).
+In this page, we provide information on how to install the Body Sensor Network (BSN) implementation for the IEEE Computer Special Issue on Formal Methods Applied to Cyber-Physical Systems[here](https://www.computer.org/digital-library/magazines/co/call-for-papers-special-issue-on-formal-methods-applied-to-cyber-physical-systems/). In this extension of the BSN, we apply the principles of Artificial Immune Systems to safely and systematically devise the observers automata at design time, which are further implemented as runtime monitors. An explanation of the UPPAAL models including the observers can be found [here](https://github.com/lesunb/ais_bsn/wiki/UPPAAL). Moreover, the performance of our experiments are detailed [here](https://github.com/lesunb/ais_bsn/wiki/Experiments).
 
 # BSN implementation on ROS
 
