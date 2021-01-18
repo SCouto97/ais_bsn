@@ -4,6 +4,16 @@ In this page, we provide information on how to install the Body Sensor Network (
 
 ![Goalmodel for the BSN](img/bsn_goalmodel.png)
 
+The image above represents the Goalmodel of the BSN. The contexts considered in this experiment are:
+
+- C1) SPO2 is available
+- C2) SPO2 valid data range
+- C3) ECG is available
+- C4) ECG valid data range
+- C5) TEMP is available
+- C6) TEMP in valid data range
+- C7) Centralhub battery level
+
 # BSN implementation on ROS
 
 This is a Body Sensor Network implementation on ROS. So far, the BSN was used for experimentation on solutions for adaptation on the Self-Adaptive Software Systems domain, refer to https://doi.org/10.1145/3194133.3194147 and https://doi.org/10.1109/SEAMS.2019.00020 for more information. The following instructions will guide you to to compile, deploy and run the BSN on Linux Ubuntu 18.04 with ROS Melodic distributions. We have not yet tested on other distributions.
