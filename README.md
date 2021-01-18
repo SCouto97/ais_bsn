@@ -91,7 +91,7 @@ source ~/.bashrc
 ## Main Authors
 
 * **Ricardo D. Caldas** - https://github.com/rdinizcal
-* **Samuel Couto** - 
+* **Samuel Couto** - https://github.com/SCouto97
 * **Gabriel Levi** - https://github.com/gabrielevi10
 * **Léo Moraes** - https://github.com/leooleo  
 * **Eric B. Gil** - https://github.com/ericbg27/
