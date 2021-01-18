@@ -1,0 +1,4 @@
+<launch>
+  <!--<node pkg="test_suite" type="publishernode" name="publishernode"/> -->
+  <test pkg="test_suite" test-name="testnode" type="testnode" />
+</launch>

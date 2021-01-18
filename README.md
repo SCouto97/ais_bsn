@@ -88,6 +88,26 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
+### In case or error due to cmake not finding libcrypto
+
+If you see the following error
+```
+/usr/bin/ld: CMakeFiles/main.dir/main.cpp.o: undefined reference to symbol 'CONF_modules_unload@@OPENSSL_1_1_0'
+//usr/lib/x86_64-linux-gnu/libcrypto.so.1.1: error adding symbols: DSO missing from command line
+collect2: error: ld returned 1 exit status
+ninja: build stopped: cannot make progress due to previous errors.
+```
+
+Follow the instructions in [issue#1388@cpprest](https://github.com/microsoft/cpprestsdk/issues/1388#issuecomment-619570350).
+Where you must add `INTERFACE_LINK_LIBRARIES "OpenSSL::SSL"` in:
+```
+set_target_properties(cpprestsdk::cpprestsdk_openssl_internal PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "CPPREST_NO_SSL_LEAK_SUPPRESS"
+  INTERFACE_LINK_LIBRARIES "OpenSSL::SSL"
+)
+```
+
+
 ## Main Authors
 
 * **Ricardo D. Caldas** - https://github.com/rdinizcal
@@ -97,4 +117,3 @@ source ~/.bashrc
 * **Eric B. Gil** - https://github.com/ericbg27/
 
 Adviser: **Genaína N. Rodrigues** - https://cic.unb.br/~genaina/
-
