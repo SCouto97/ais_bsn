@@ -124,6 +124,7 @@ set_target_properties(cpprestsdk::cpprestsdk_openssl_internal PROPERTIES
 
 * **Ricardo D. Caldas** - https://github.com/rdinizcal
 * **Samuel Couto** - https://github.com/SCouto97
+* **Gabriel Araújo (Moisés)** - https://github.com/Gastd
 * **Gabriel Levi** - https://github.com/gabrielevi10
 * **Léo Moraes** - https://github.com/leooleo  
 * **Eric B. Gil** - https://github.com/ericbg27/
