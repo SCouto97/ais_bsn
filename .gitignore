@@ -68,3 +68,5 @@ json
 venv
 TODO
 bsn_remote_control
+
+.DS_Store
