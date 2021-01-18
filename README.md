@@ -4,7 +4,7 @@ In this page, we provide information on how to install the Body Sensor Network (
 
 ![Goalmodel for the BSN](img/bsn_goalmodel.png)
 
-The image above represents the Goalmodel of the BSN. The contexts considered in this experiment are:
+The image above represents the Goal Model of the BSN. The contexts considered in this experiment are:
 
 - C1) SPO2 is available
 - C2) SPO2 valid data range
@@ -12,7 +12,7 @@ The image above represents the Goalmodel of the BSN. The contexts considered in 
 - C4) ECG valid data range
 - C5) TEMP is available
 - C6) TEMP in valid data range
-- C7) Centralhub battery level
+- C7) Bodyhub battery level
 
 # BSN implementation on ROS
 
