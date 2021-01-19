@@ -39,7 +39,7 @@ class CentralHub : public arch::target_system::Component {
         virtual void collect(const messages::SensorData::ConstPtr& sensor_data) = 0;
         virtual void process() = 0;
         virtual void transfer() = 0;
-        void flushData(messages::CentralhubDiagnostics);
+        void flushData(messages::DiagnosticsData);
 
     private:
         bool isActive();

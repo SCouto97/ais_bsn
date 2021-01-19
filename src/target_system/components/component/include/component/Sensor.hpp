@@ -39,7 +39,9 @@ class Sensor : public arch::target_system::Component {
         void reconfigure(const archlib::AdaptationCommand::ConstPtr& msg);
         void injectUncertainty(const archlib::Uncertainty::ConstPtr& msg);
         int64_t now() const;
-        void flushData(messages::DiagnosticsData msg);
+        void flushData();
+        void publishStatus();
+
 		
         virtual double collect() = 0;
         virtual double process(const double &data) = 0;
@@ -66,9 +68,11 @@ class Sensor : public arch::target_system::Component {
 
         uint32_t dataId;
 
-        std::string filepath;
-        std::string timestamp; 
         std::fstream fp;
+
+        std::string filepath;
+        std::string timestamp;
+        std::string currentStatus;
         std::string currentProperty;
         std::string pathSuffix;
         boost::posix_time::ptime my_posix_time;

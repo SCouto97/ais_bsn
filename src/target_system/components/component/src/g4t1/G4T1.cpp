@@ -68,7 +68,7 @@ void G4T1::setUp() {
     }
 
     pub = nh.advertise<messages::TargetSystemData>("TargetSystemData", 10);
-    chDetectPub = nh.advertise<messages::CentralhubDiagnostics>("ch_detected", 10);
+    chDetectPub = nh.advertise<messages::DiagnosticsData>("ch_detected", 10);
 }
 
 void G4T1::tearDown() {}
@@ -135,15 +135,14 @@ void G4T1::process() {
     boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
     timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
 
-    messages::CentralhubDiagnostics diagMsg;
+    messages::DiagnosticsData diagMsg;
     diagMsg.id = currentDataId;
-    diagMsg.type = "sensor";
+    diagMsg.type = "centralhub";
     diagMsg.source = currentType;
     diagMsg.status = "processed";
     diagMsg.timestamp = timestamp;
     statusPub.publish(diagMsg);
 
-    diagMsg.id = currentDataId;
     diagMsg.type = "centralhub";
     statusPub.publish(diagMsg);
     
@@ -154,9 +153,7 @@ void G4T1::process() {
     my_posix_time = ros::Time::now().toBoost();
     timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
 
-    diagMsg.id = currentDataId;
     diagMsg.status = "detected";
-    diagMsg.type = "centralhub";
     diagMsg.timestamp = timestamp;        
     chDetectPub.publish(diagMsg);
 
@@ -237,12 +234,12 @@ void G4T1::transfer() {
 
     pub.publish(msg);
 
-    messages::CentralhubDiagnostics diagMsg;
+    messages::DiagnosticsData diagMsg;
     boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
     timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
     
     diagMsg.id = currentDataId;
-    diagMsg.type = "sensor";
+    diagMsg.type = "centralhub";
     diagMsg.source = currentType;
     diagMsg.status = "persisted";
     diagMsg.timestamp = timestamp;

@@ -9,7 +9,7 @@ PropertyAnalyzer::~PropertyAnalyzer() {}
 void PropertyAnalyzer::setUp() {
 
     ros::NodeHandle nh;
-    sensorSub = nh.subscribe("sensor_diagnostics", 100, &PropertyAnalyzer::processSensorData, this);
+    sensorSub = nh.subscribe("sensor_diagnostics", 1000, &PropertyAnalyzer::processSensorData, this);
     centralhubSub = nh.subscribe("centralhub_diagnostics", 100, &PropertyAnalyzer::processCentralhubData, this);
     sensorOnSub = nh.subscribe("collect_status", 10, &PropertyAnalyzer::processSensorOn, this);
 
@@ -23,6 +23,9 @@ void PropertyAnalyzer::setUp() {
     gotMessage["sensor"] = gotMessage["centralhub"] = false;
     violation_flag = false;
     property_satisfied = true;
+    currentId = 1;
+    prevId = 0;
+    numFails = 0;
 
     nh.getParam("SensorName", currentSensor);
     nh.getParam("property", currentProperty);
@@ -87,23 +90,13 @@ void PropertyAnalyzer::defineStateNames() {
     }
 }
 
-void PropertyAnalyzer::flushData(const messages::CentralhubDiagnostics::ConstPtr& msg) {
-    fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
-    fp << msg->timestamp << ",";
-    fp << msg->id << ",";
-    fp << msg->source << ",";
-    fp << msg->status << ",";
-    fp << property_satisfied << std::endl;
-    fp.close();
-}
-
 void PropertyAnalyzer::flushData(const messages::DiagnosticsData::ConstPtr& msg) {
     fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
     fp << msg->timestamp << ",";
     fp << msg->id << ",";
     fp << msg->source << ",";
-    fp << msg->status << ",";
-    fp << property_satisfied << std::endl;
+    fp << msg->status << std::endl;
+    //fp << property_satisfied << std::endl;
     fp.close();
 }
 
@@ -117,7 +110,6 @@ void PropertyAnalyzer::defineStateTypes() {
 void PropertyAnalyzer::processSensorInRange(const messages::DiagnosticsData::ConstPtr& msg) {
     if (currentProperty == "p3") {
         if (msg->source == sensorAlias[currentSensor]) {
-            std::cout << "bla" << std::endl;
             if (msg->status == "data_inrange") {
                 outgoingId = msg->id;
                 THIRD_reached = true;
@@ -131,18 +123,24 @@ void PropertyAnalyzer::processSensorInRange(const messages::DiagnosticsData::Con
     }
 }
 
-void PropertyAnalyzer::processCentralhubDetection(const messages::CentralhubDiagnostics::ConstPtr& msg) {
+void PropertyAnalyzer::processCentralhubDetection(const messages::DiagnosticsData::ConstPtr& msg) {
     if (currentProperty == "p4") {
-        if (msg->status == "on" || msg->status == "processed"
-             || msg->status == "detected" || msg->status == "off") {
-                gotMessage["centralhub"] = true;
+        if (msg->status == "on" || 
+            msg->status == "processed" || 
+            msg->status == "detected" || 
+            msg->status == "off") {
+            
+            gotMessage["centralhub"] = true;
+
             if (msg->status == "detected") {
+
                 outgoingId = msg->id;
                 THIRD_reached = true;
                 if (property_satisfied && msg->source == currentProcessed) {
                     property_satisfied = currentIdList[msg->source] == msg->id;
                 }
                 gotMessage["centralhub"] = true;
+                
             } else if (msg->status == "on") {
                 ON_reached = true;
             } else if (msg->status == "off") {
@@ -156,18 +154,23 @@ void PropertyAnalyzer::processCentralhubDetection(const messages::CentralhubDiag
 }
 
 
-void PropertyAnalyzer::processCentralhubData(const messages::CentralhubDiagnostics::ConstPtr& msg) {     
+void PropertyAnalyzer::processCentralhubData(const messages::DiagnosticsData::ConstPtr& msg) {     
     if (currentProperty != "p4" && currentProperty != "p3") {
-        if (msg->type == "sensor" && msg->source == sensorAlias[currentSensor]) {
-            if (msg->status == "on" || msg->status == centralhubSignal || msg->status == "off") {                
+        if (msg->type == "centralhub" && msg->source == sensorAlias[currentSensor]) {
+            if (msg->status == "on" || 
+                msg->status == centralhubSignal || 
+                msg->status == "off") { 
+                
                 if (msg->status == centralhubSignal) {
                     outgoingId = msg->id;
                     THIRD_reached = true;
-                    if (!violation_flag) violation_flag = outgoingId != incomingId;
+                    violation_flag = outgoingId != incomingId;
                 }
+
                 if (currentId != prevId) flushData(msg);
                 prevId = currentId;
                 gotMessage["centralhub"] = true;
+
             }
         }   //else if (msg->type == "centralhub") {
             //gotMessage["centralhub"] = true;
@@ -180,8 +183,10 @@ void PropertyAnalyzer::processCentralhubData(const messages::CentralhubDiagnosti
                 gotMessage["centralhub_processed"] = true;
                 currentIdList[msg->source] = msg->id;
                 currentProcessed = msg->source;
+                if (currentIdList[msg->source] != prevIdList[msg->source]) flushData(msg);
+            } else if (msg->status == "persisted") {
+                flushData(msg);
             }
-            if (currentIdList[msg->source] != prevIdList[msg->source]) flushData(msg);
         }
     }
 }
@@ -189,7 +194,12 @@ void PropertyAnalyzer::processCentralhubData(const messages::CentralhubDiagnosti
 void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstPtr& msg) {
     if (currentProperty != "p4" && currentProperty != "p3") {
         if (msg->source == sensorAlias[currentSensor]) {
-            if (msg->status == "on" || msg->status == sensorSignal || msg->status == "off") {
+            if (msg->status == "on" || 
+                msg->status == sensorSignal || 
+                msg->status == "off") {
+
+                flushData(msg);
+
                 if (msg->status == "on") {
                     ON_reached = true;
                 } else if (msg->status == sensorSignal) {
@@ -197,34 +207,66 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
                     incomingId = msg->id;
                 } else if (msg->status == "off") {
                     OFF_reached = true;
-                }
+                    if (numFails) {
+                        fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
+                            fp << "ERROR: "<< msg->timestamp << std::endl;
+                        fp.close();
+                        numFails = 0;
+                    }
+                } 
+
                 currentId = msg->id;
+                gotMessage["sensor"] = true;
+    
+
+            } else if (msg->status == "sensor accuracy fail" || msg->status == "out of bounds") {
                 flushData(msg);
                 gotMessage["sensor"] = true;
+                numFails++;
             }
         }
     } else if (currentProperty == "p3") {
         if (msg->source == sensorAlias[currentSensor]) {
-            if (msg->status == "ready" || msg->status == sensorSignal || msg->status == "sent") {
+            if (msg->status == "ready" ||
+                msg->status == sensorSignal ||
+                msg->status == "sent") {
+                
                 if (msg->status == "ready") {
                     ON_reached = true;
+                    numFails = 0;
                 } else if (msg->status == sensorSignal) {
                     SECOND_reached = true;
-                    incomingId = msg->id;
+                    //incomingId = msg->id;
                 } else if (msg->status == "sent") {
                     OFF_reached = true;
+                    if (numFails)  {
+                        violation_flag = true;
+                        fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
+                            fp << "ERROR: "<< msg->timestamp << std::endl;
+                        fp.close();
+                        numFails = 0;
+                    }
                 }
+
                 currentId = msg->id;
                 flushData(msg);
                 gotMessage["sensor"] = true;
+            
             } else if (msg->status == "data_inrange") {
                 outgoingId = msg->id;
                 THIRD_reached = true;
-                if (!violation_flag && msg->source == currentProcessed) {
+                if (msg->source == currentProcessed) {
                     violation_flag = currentIdList[msg->source] == msg->id;
                 }
-                gotMessage["sensor_inrange"];
+
+                gotMessage["sensor_inrange"] = true;
+
                 if (currentId != prevId) flushData(msg);
+                prevId = currentId;
+            } else if (msg->status == "sensor accuracy fail" || msg->status == "out of bounds") {
+                numFails++;
+                flushData(msg);
+                gotMessage["sensor"] = true;
             }
         }
     }
@@ -241,8 +283,8 @@ void PropertyAnalyzer::processSensorOn(const archlib::Status::ConstPtr& msg) {
                 fp << msg->timestamp << ",";
                 fp << 0 << ",";
                 fp << "centralhub" << ",";
-                fp << "on" << ",";
-                fp << property_satisfied << std::endl;
+                fp << "on" << std::endl;
+                //fp << property_satisfied << std::endl;
                 fp.close();    
             }
         }
@@ -256,8 +298,8 @@ void PropertyAnalyzer::processSensorOn(const archlib::Status::ConstPtr& msg) {
                 fp << msg->timestamp << ",";
                 fp << 0 << ",";
                 fp << sensorAlias[currentSensor] << ",";
-                fp << "on" << ",";
-                fp << property_satisfied << std::endl;
+                fp << "on" << std::endl;
+                //fp << property_satisfied << std::endl;
                 fp.close();
             }
         }
@@ -267,9 +309,13 @@ void PropertyAnalyzer::processSensorOn(const archlib::Status::ConstPtr& msg) {
 void PropertyAnalyzer::tearDown() {}
 
 void PropertyAnalyzer::busyWait(const std::string& type) {
-    ros::Rate loop_rate(10);
-    //printStack();
-    while (!gotMessage[type]) {ros::spinOnce();loop_rate.sleep();}
+    ros::Rate loop_rate(100);
+
+    while (!gotMessage[type]) {
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
+
     printStack();
     gotMessage[type] = false;
 }
@@ -312,20 +358,24 @@ void PropertyAnalyzer::body() {
                         currentState = "Waiting for data to be " + centralhubSignal;
                         busyWait(stateTypes[1]);
 
-                        if (OFF_reached) {
-                            std::cout << "ERROR! Data "+sensorSignal+", but not "+centralhubSignal <<std::endl;
+                        if (OFF_reached || violation_flag) {
+                            OFF_reached = false;
                             wait_third = false;
-                            if (violation_flag) property_satisfied = false;
-                            printStack();
+                            wait_second = true;
+                            //fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
+                            //    fp << "ERROR! Data " +sensorSignal+ ", but not " +centralhubSignal << std::endl;
+                            //fp.close();
+                            //if (violation_flag) {
+                            //    property_satisfied = false;
+                            //    violation_flag = false;
+                            //}
                         }
 
-                        if(THIRD_reached == true) {
+                        if (THIRD_reached == true) {
                             THIRD_reached = false;
                             wait_third = false;
                             wait_second = true;
-                            if (violation_flag) property_satisfied = false;
                         }
-
                     }
                 } 
                 if(OFF_reached == true) {
@@ -341,7 +391,7 @@ void PropertyAnalyzer::body() {
 int32_t PropertyAnalyzer::run() {
         setUp();
         
-        ros::Rate loop_rate(10);
+        ros::Rate loop_rate(100);
         
         while(ros::ok()) {
             body();

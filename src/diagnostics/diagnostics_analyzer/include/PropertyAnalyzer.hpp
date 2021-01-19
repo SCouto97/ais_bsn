@@ -25,11 +25,11 @@ class PropertyAnalyzer {
 
         int32_t run();
 
-        void processCentralhubData(const messages::CentralhubDiagnostics::ConstPtr&);
+        void processCentralhubData(const messages::DiagnosticsData::ConstPtr&);
         void processSensorData(const messages::DiagnosticsData::ConstPtr&);
         void processSensorOn(const archlib::Status::ConstPtr&);
         void processSensorInRange(const messages::DiagnosticsData::ConstPtr&);
-        void processCentralhubDetection(const messages::CentralhubDiagnostics::ConstPtr&);
+        void processCentralhubDetection(const messages::DiagnosticsData::ConstPtr&);
         void processCentralhubOn(const archlib::Status::ConstPtr&);
         void busyWait(const std::string&);
         void printStack();
@@ -38,8 +38,8 @@ class PropertyAnalyzer {
         std::string yesOrNo(bool);
 
         bool isPropertySatisfied();
-        void flushData(const messages::CentralhubDiagnostics::ConstPtr& msg);
         void flushData(const messages::DiagnosticsData::ConstPtr& msg);
+        
 
     private:
         //ros::NodeHandle nh;
@@ -81,7 +81,8 @@ class PropertyAnalyzer {
         uint32_t incomingId;
         uint32_t outgoingId;
         uint32_t prevId, currentId;
-        uint32_t expectedId;
+        uint32_t numFails;
+        uint32_t checksum, checksumFails;
 
         std::fstream fp;
         std::string filepath;
