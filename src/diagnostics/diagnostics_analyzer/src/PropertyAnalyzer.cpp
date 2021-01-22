@@ -223,7 +223,7 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
                 gotMessage["sensor"] = true;
     
             } else if (msg->status == "sensor accuracy fail" || msg->status == "out of bounds") {
-                //flushData(msg);
+                flushData(msg);
                 gotMessage["sensor"] = true;
                 numFails++;
             }

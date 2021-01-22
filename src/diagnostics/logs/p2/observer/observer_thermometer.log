@@ -1,44 +1,300 @@
 
-2021-01-22T19:46:40.459349,0,thermometer,on
-2021-01-22T19:46:41.463983,2,thermometer,collected
-2021-01-22T19:46:42.462707,3,thermometer,collected
-2021-01-22T19:46:43.463766,4,thermometer,collected
-2021-01-22T19:46:44.462609,5,thermometer,collected
-2021-01-22T19:46:45.462511,6,thermometer,collected
-2021-01-22T19:46:46.462806,7,thermometer,collected
-2021-01-22T19:46:47.465181,8,thermometer,collected
-2021-01-22T19:46:47.633307,8,thermometer,persisted
-2021-01-22T19:46:48.459511,9,thermometer,off
-ERROR: 2021-01-22T19:46:48.459511
-2021-01-22T19:46:58.459581,9,thermometer,on
-2021-01-22T19:46:58.465028,9,thermometer,collected
-2021-01-22T19:46:59.462631,10,thermometer,collected
-2021-01-22T19:47:00.463556,11,thermometer,collected
-2021-01-22T19:47:01.463560,12,thermometer,collected
-2021-01-22T19:47:02.462552,13,thermometer,collected
-2021-01-22T19:47:02.639378,13,thermometer,persisted
-2021-01-22T19:47:03.462699,14,thermometer,collected
-2021-01-22T19:47:03.639905,14,thermometer,persisted
-2021-01-22T19:47:04.459522,15,thermometer,off
-ERROR: 2021-01-22T19:47:04.459522
-2021-01-22T19:47:13.459614,15,thermometer,on
-2021-01-22T19:47:13.464182,15,thermometer,collected
-2021-01-22T19:47:14.462873,16,thermometer,collected
-2021-01-22T19:47:15.463589,17,thermometer,collected
-2021-01-22T19:47:16.462690,18,thermometer,collected
-2021-01-22T19:47:16.645314,18,thermometer,persisted
-2021-01-22T19:47:17.463272,19,thermometer,collected
-2021-01-22T19:47:18.462756,20,thermometer,collected
-2021-01-22T19:47:19.459561,21,thermometer,off
-ERROR: 2021-01-22T19:47:19.459561
-2021-01-22T19:47:29.459574,21,thermometer,on
-2021-01-22T19:47:29.463753,21,thermometer,collected
-2021-01-22T19:47:30.462534,22,thermometer,collected
-2021-01-22T19:47:31.463116,23,thermometer,collected
-2021-01-22T19:47:32.462642,24,thermometer,collected
-2021-01-22T19:47:32.651637,24,thermometer,persisted
-2021-01-22T19:47:33.462365,25,thermometer,collected
-2021-01-22T19:47:34.463012,26,thermometer,collected
-2021-01-22T19:47:35.467810,27,thermometer,collected
-2021-01-22T19:47:36.459516,28,thermometer,off
-ERROR: 2021-01-22T19:47:36.459516
+2021-01-22T21:59:35.799566,0,thermometer,on
+2021-01-22T21:59:36.802960,2,thermometer,collected
+2021-01-22T21:59:36.803484,2,thermometer,sensor accuracy fail
+2021-01-22T21:59:37.802872,3,thermometer,collected
+2021-01-22T21:59:37.803182,3,thermometer,sensor accuracy fail
+2021-01-22T21:59:38.802960,4,thermometer,collected
+2021-01-22T21:59:38.890391,4,thermometer,persisted
+2021-01-22T21:59:39.803656,5,thermometer,collected
+2021-01-22T21:59:39.803982,5,thermometer,sensor accuracy fail
+2021-01-22T21:59:40.803460,6,thermometer,collected
+2021-01-22T21:59:40.803715,6,thermometer,sensor accuracy fail
+2021-01-22T21:59:41.803168,7,thermometer,collected
+2021-01-22T21:59:41.803474,7,thermometer,sensor accuracy fail
+2021-01-22T21:59:42.803476,8,thermometer,collected
+2021-01-22T21:59:42.892357,8,thermometer,persisted
+2021-01-22T21:59:43.799726,9,thermometer,off
+ERROR: 2021-01-22T21:59:43.799726
+2021-01-22T21:59:53.799759,9,thermometer,on
+2021-01-22T21:59:53.803251,9,thermometer,collected
+2021-01-22T21:59:53.896630,9,thermometer,persisted
+2021-01-22T21:59:54.802921,10,thermometer,collected
+2021-01-22T21:59:54.897316,10,thermometer,persisted
+2021-01-22T21:59:55.803582,11,thermometer,collected
+2021-01-22T21:59:55.897724,11,thermometer,persisted
+2021-01-22T21:59:56.803254,12,thermometer,collected
+2021-01-22T21:59:56.803522,12,thermometer,sensor accuracy fail
+2021-01-22T21:59:57.803010,13,thermometer,collected
+2021-01-22T21:59:57.898470,13,thermometer,persisted
+2021-01-22T21:59:58.802714,14,thermometer,collected
+2021-01-22T21:59:58.899085,14,thermometer,persisted
+2021-01-22T21:59:59.799720,15,thermometer,off
+ERROR: 2021-01-22T21:59:59.799720
+2021-01-22T22:00:08.799760,15,thermometer,on
+2021-01-22T22:00:08.803225,15,thermometer,collected
+2021-01-22T22:00:08.803543,15,thermometer,sensor accuracy fail
+2021-01-22T22:00:09.803368,16,thermometer,collected
+2021-01-22T22:00:09.903825,16,thermometer,persisted
+2021-01-22T22:00:10.803106,17,thermometer,collected
+2021-01-22T22:00:10.907523,17,thermometer,persisted
+2021-01-22T22:00:11.803156,18,thermometer,collected
+2021-01-22T22:00:11.803421,18,thermometer,sensor accuracy fail
+2021-01-22T22:00:12.803571,19,thermometer,collected
+2021-01-22T22:00:12.904885,19,thermometer,persisted
+2021-01-22T22:00:13.802764,20,thermometer,collected
+2021-01-22T22:00:13.905388,20,thermometer,persisted
+2021-01-22T22:00:14.799721,21,thermometer,off
+ERROR: 2021-01-22T22:00:14.799721
+2021-01-22T22:00:24.799765,21,thermometer,on
+2021-01-22T22:00:24.803871,21,thermometer,collected
+2021-01-22T22:00:24.804156,21,thermometer,sensor accuracy fail
+2021-01-22T22:00:25.803726,22,thermometer,collected
+2021-01-22T22:00:25.804131,22,thermometer,sensor accuracy fail
+2021-01-22T22:00:26.802931,23,thermometer,collected
+2021-01-22T22:00:26.911001,23,thermometer,persisted
+2021-01-22T22:00:27.803180,24,thermometer,collected
+2021-01-22T22:00:27.911194,24,thermometer,persisted
+2021-01-22T22:00:28.803630,25,thermometer,collected
+2021-01-22T22:00:28.911906,25,thermometer,persisted
+2021-01-22T22:00:29.802893,26,thermometer,collected
+2021-01-22T22:00:29.912229,26,thermometer,persisted
+2021-01-22T22:00:30.802628,27,thermometer,collected
+2021-01-22T22:00:30.912700,27,thermometer,persisted
+2021-01-22T22:00:31.799723,28,thermometer,off
+ERROR: 2021-01-22T22:00:31.799723
+2021-01-22T22:00:41.799746,28,thermometer,on
+2021-01-22T22:00:41.803858,28,thermometer,collected
+2021-01-22T22:00:41.804140,28,thermometer,sensor accuracy fail
+2021-01-22T22:00:42.803556,29,thermometer,collected
+2021-01-22T22:00:42.917660,29,thermometer,persisted
+2021-01-22T22:00:43.803379,30,thermometer,collected
+2021-01-22T22:00:43.803666,30,thermometer,sensor accuracy fail
+2021-01-22T22:00:44.802834,31,thermometer,collected
+2021-01-22T22:00:44.803107,31,thermometer,sensor accuracy fail
+2021-01-22T22:00:45.802690,32,thermometer,collected
+2021-01-22T22:00:45.802955,32,thermometer,sensor accuracy fail
+2021-01-22T22:00:46.803488,33,thermometer,collected
+2021-01-22T22:00:46.919380,33,thermometer,persisted
+2021-01-22T22:00:47.802686,34,thermometer,collected
+2021-01-22T22:00:47.802995,34,thermometer,sensor accuracy fail
+2021-01-22T22:00:48.802771,35,thermometer,collected
+2021-01-22T22:00:48.803052,35,thermometer,sensor accuracy fail
+2021-01-22T22:00:49.799761,36,thermometer,off
+ERROR: 2021-01-22T22:00:49.799761
+2021-01-22T22:00:59.799719,36,thermometer,on
+2021-01-22T22:00:59.803217,36,thermometer,collected
+2021-01-22T22:00:59.803560,36,thermometer,sensor accuracy fail
+2021-01-22T22:01:00.802930,37,thermometer,collected
+2021-01-22T22:01:00.803192,37,thermometer,sensor accuracy fail
+2021-01-22T22:01:01.803488,38,thermometer,collected
+2021-01-22T22:01:01.803834,38,thermometer,sensor accuracy fail
+2021-01-22T22:01:02.803687,39,thermometer,collected
+2021-01-22T22:01:02.926248,39,thermometer,persisted
+2021-01-22T22:01:03.803559,40,thermometer,collected
+2021-01-22T22:01:03.926630,40,thermometer,persisted
+2021-01-22T22:01:04.802966,41,thermometer,collected
+2021-01-22T22:01:04.927168,41,thermometer,persisted
+2021-01-22T22:01:05.802716,42,thermometer,collected
+2021-01-22T22:01:05.927660,42,thermometer,persisted
+2021-01-22T22:01:06.799751,43,thermometer,off
+ERROR: 2021-01-22T22:01:06.799751
+2021-01-22T22:01:16.799756,43,thermometer,on
+2021-01-22T22:01:16.803150,43,thermometer,collected
+2021-01-22T22:01:16.932303,43,thermometer,persisted
+2021-01-22T22:01:17.802852,44,thermometer,collected
+2021-01-22T22:01:17.803161,44,thermometer,sensor accuracy fail
+2021-01-22T22:01:18.803551,45,thermometer,collected
+2021-01-22T22:01:18.933180,45,thermometer,persisted
+2021-01-22T22:01:19.802870,46,thermometer,collected
+2021-01-22T22:01:19.933614,46,thermometer,persisted
+2021-01-22T22:01:20.802847,47,thermometer,collected
+2021-01-22T22:01:20.934001,47,thermometer,persisted
+2021-01-22T22:01:21.803077,48,thermometer,collected
+2021-01-22T22:01:21.934772,48,thermometer,persisted
+2021-01-22T22:01:22.799755,49,thermometer,off
+ERROR: 2021-01-22T22:01:22.799755
+2021-01-22T22:01:31.799733,49,thermometer,on
+2021-01-22T22:01:31.803308,49,thermometer,collected
+2021-01-22T22:01:31.938696,49,thermometer,persisted
+2021-01-22T22:01:32.803275,50,thermometer,collected
+2021-01-22T22:01:32.803575,50,thermometer,sensor accuracy fail
+2021-01-22T22:01:33.802933,51,thermometer,collected
+2021-01-22T22:01:33.939623,51,thermometer,persisted
+2021-01-22T22:01:34.803044,52,thermometer,collected
+2021-01-22T22:01:34.940143,52,thermometer,persisted
+2021-01-22T22:01:35.803730,53,thermometer,collected
+2021-01-22T22:01:35.804012,53,thermometer,sensor accuracy fail
+2021-01-22T22:01:36.802754,54,thermometer,collected
+2021-01-22T22:01:36.940935,54,thermometer,persisted
+2021-01-22T22:01:37.799764,55,thermometer,off
+ERROR: 2021-01-22T22:01:37.799764
+2021-01-22T22:01:47.799727,55,thermometer,on
+2021-01-22T22:01:47.803935,55,thermometer,collected
+2021-01-22T22:01:47.945470,55,thermometer,persisted
+2021-01-22T22:01:48.802851,56,thermometer,collected
+2021-01-22T22:01:48.946157,56,thermometer,persisted
+2021-01-22T22:01:49.803037,57,thermometer,collected
+2021-01-22T22:01:49.946326,57,thermometer,persisted
+2021-01-22T22:01:50.803707,58,thermometer,collected
+2021-01-22T22:01:50.946704,58,thermometer,persisted
+2021-01-22T22:01:51.803645,59,thermometer,collected
+2021-01-22T22:01:51.803977,59,thermometer,sensor accuracy fail
+2021-01-22T22:01:52.803607,60,thermometer,collected
+2021-01-22T22:01:52.803873,60,thermometer,sensor accuracy fail
+2021-01-22T22:01:53.802973,61,thermometer,collected
+2021-01-22T22:01:53.803350,61,thermometer,sensor accuracy fail
+2021-01-22T22:01:54.799759,62,thermometer,off
+ERROR: 2021-01-22T22:01:54.799759
+2021-01-22T22:02:04.799767,62,thermometer,on
+2021-01-22T22:02:04.803926,62,thermometer,collected
+2021-01-22T22:02:04.804260,62,thermometer,sensor accuracy fail
+2021-01-22T22:02:05.803043,63,thermometer,collected
+2021-01-22T22:02:05.803357,63,thermometer,sensor accuracy fail
+2021-01-22T22:02:06.802762,64,thermometer,collected
+2021-01-22T22:02:06.953374,64,thermometer,persisted
+2021-01-22T22:02:07.803495,65,thermometer,collected
+2021-01-22T22:02:07.803793,65,thermometer,sensor accuracy fail
+2021-01-22T22:02:08.802890,66,thermometer,collected
+2021-01-22T22:02:08.954499,66,thermometer,persisted
+2021-01-22T22:02:09.803663,67,thermometer,collected
+2021-01-22T22:02:09.804080,67,thermometer,sensor accuracy fail
+2021-01-22T22:02:10.802722,68,thermometer,collected
+2021-01-22T22:02:10.955281,68,thermometer,persisted
+2021-01-22T22:02:11.799727,69,thermometer,off
+ERROR: 2021-01-22T22:02:11.799727
+2021-01-22T22:02:20.799779,69,thermometer,on
+2021-01-22T22:02:20.804008,69,thermometer,collected
+2021-01-22T22:02:20.804290,69,thermometer,sensor accuracy fail
+2021-01-22T22:02:21.802938,70,thermometer,collected
+2021-01-22T22:02:21.959584,70,thermometer,persisted
+2021-01-22T22:02:22.803816,71,thermometer,collected
+2021-01-22T22:02:22.959984,71,thermometer,persisted
+2021-01-22T22:02:23.803092,72,thermometer,collected
+2021-01-22T22:02:23.803403,72,thermometer,sensor accuracy fail
+2021-01-22T22:02:24.802719,73,thermometer,collected
+2021-01-22T22:02:24.803041,73,thermometer,sensor accuracy fail
+2021-01-22T22:02:25.803286,74,thermometer,collected
+2021-01-22T22:02:25.961216,74,thermometer,persisted
+2021-01-22T22:02:26.802609,75,thermometer,collected
+2021-01-22T22:02:26.961743,75,thermometer,persisted
+2021-01-22T22:02:27.799751,76,thermometer,off
+ERROR: 2021-01-22T22:02:27.799751
+2021-01-22T22:02:37.799797,76,thermometer,on
+2021-01-22T22:02:37.803341,76,thermometer,collected
+2021-01-22T22:02:37.803938,76,thermometer,sensor accuracy fail
+2021-01-22T22:02:38.802786,77,thermometer,collected
+2021-01-22T22:02:38.967018,77,thermometer,persisted
+2021-01-22T22:02:39.802985,78,thermometer,collected
+2021-01-22T22:02:39.803315,78,thermometer,sensor accuracy fail
+2021-01-22T22:02:40.803368,79,thermometer,collected
+2021-01-22T22:02:40.803682,79,thermometer,sensor accuracy fail
+2021-01-22T22:02:41.803303,80,thermometer,collected
+2021-01-22T22:02:41.803629,80,thermometer,sensor accuracy fail
+2021-01-22T22:02:42.803397,81,thermometer,collected
+2021-01-22T22:02:42.968395,81,thermometer,persisted
+2021-01-22T22:02:43.803592,82,thermometer,collected
+2021-01-22T22:02:43.968964,82,thermometer,persisted
+2021-01-22T22:02:44.799767,83,thermometer,off
+ERROR: 2021-01-22T22:02:44.799767
+2021-01-22T22:02:53.799767,83,thermometer,on
+2021-01-22T22:02:53.803189,83,thermometer,collected
+2021-01-22T22:02:53.973304,83,thermometer,persisted
+2021-01-22T22:02:54.803609,84,thermometer,collected
+2021-01-22T22:02:54.973435,84,thermometer,persisted
+2021-01-22T22:02:55.803675,85,thermometer,collected
+2021-01-22T22:02:55.973846,85,thermometer,persisted
+2021-01-22T22:02:56.803712,86,thermometer,collected
+2021-01-22T22:02:56.974523,86,thermometer,persisted
+2021-01-22T22:02:57.803008,87,thermometer,collected
+2021-01-22T22:02:57.975016,87,thermometer,persisted
+2021-01-22T22:02:58.802760,88,thermometer,collected
+2021-01-22T22:02:58.975400,88,thermometer,persisted
+2021-01-22T22:02:59.799754,89,thermometer,off
+2021-01-22T22:03:09.799770,89,thermometer,on
+2021-01-22T22:03:09.803619,89,thermometer,collected
+2021-01-22T22:03:09.803986,89,thermometer,sensor accuracy fail
+2021-01-22T22:03:10.803511,90,thermometer,collected
+2021-01-22T22:03:10.980291,90,thermometer,persisted
+2021-01-22T22:03:11.802969,91,thermometer,collected
+2021-01-22T22:03:11.803241,91,thermometer,sensor accuracy fail
+2021-01-22T22:03:12.804004,92,thermometer,collected
+2021-01-22T22:03:12.981198,92,thermometer,persisted
+2021-01-22T22:03:13.802996,93,thermometer,collected
+2021-01-22T22:03:13.803347,93,thermometer,sensor accuracy fail
+2021-01-22T22:03:14.803391,94,thermometer,collected
+2021-01-22T22:03:14.982155,94,thermometer,persisted
+2021-01-22T22:03:15.802992,95,thermometer,collected
+2021-01-22T22:03:15.803319,95,thermometer,sensor accuracy fail
+2021-01-22T22:03:16.799772,96,thermometer,off
+ERROR: 2021-01-22T22:03:16.799772
+2021-01-22T22:03:25.799759,96,thermometer,on
+2021-01-22T22:03:25.803167,96,thermometer,collected
+2021-01-22T22:03:25.803402,96,thermometer,sensor accuracy fail
+2021-01-22T22:03:26.803600,97,thermometer,collected
+2021-01-22T22:03:26.987124,97,thermometer,persisted
+2021-01-22T22:03:27.803101,98,thermometer,collected
+2021-01-22T22:03:27.987638,98,thermometer,persisted
+2021-01-22T22:03:28.802860,99,thermometer,collected
+2021-01-22T22:03:28.803264,99,thermometer,sensor accuracy fail
+2021-01-22T22:03:29.803116,100,thermometer,collected
+2021-01-22T22:03:29.803548,100,thermometer,sensor accuracy fail
+2021-01-22T22:03:30.803093,101,thermometer,collected
+2021-01-22T22:03:30.988814,101,thermometer,persisted
+2021-01-22T22:03:31.802975,102,thermometer,collected
+2021-01-22T22:03:31.803276,102,thermometer,sensor accuracy fail
+2021-01-22T22:03:32.799794,103,thermometer,off
+ERROR: 2021-01-22T22:03:32.799794
+2021-01-22T22:03:42.799745,103,thermometer,on
+2021-01-22T22:03:42.803579,103,thermometer,collected
+2021-01-22T22:03:42.993851,103,thermometer,persisted
+2021-01-22T22:03:43.802383,104,thermometer,collected
+2021-01-22T22:03:43.994531,104,thermometer,persisted
+2021-01-22T22:03:44.803778,105,thermometer,collected
+2021-01-22T22:03:44.995241,105,thermometer,persisted
+2021-01-22T22:03:45.802946,106,thermometer,collected
+2021-01-22T22:03:45.995201,106,thermometer,persisted
+2021-01-22T22:03:46.803373,107,thermometer,collected
+2021-01-22T22:03:46.995748,107,thermometer,persisted
+2021-01-22T22:03:47.803820,108,thermometer,collected
+2021-01-22T22:03:47.996152,108,thermometer,persisted
+2021-01-22T22:03:48.799759,109,thermometer,off
+2021-01-22T22:03:58.799752,109,thermometer,on
+2021-01-22T22:03:58.803664,109,thermometer,collected
+2021-01-22T22:03:59.000318,109,thermometer,persisted
+2021-01-22T22:03:59.802828,110,thermometer,collected
+2021-01-22T22:03:59.803123,110,thermometer,sensor accuracy fail
+2021-01-22T22:04:00.803534,111,thermometer,collected
+2021-01-22T22:04:00.803829,111,thermometer,sensor accuracy fail
+2021-01-22T22:04:01.803078,112,thermometer,collected
+2021-01-22T22:04:01.803346,112,thermometer,sensor accuracy fail
+2021-01-22T22:04:02.803394,113,thermometer,collected
+2021-01-22T22:04:03.803181,114,thermometer,collected
+2021-01-22T22:04:03.803529,114,thermometer,sensor accuracy fail
+2021-01-22T22:04:04.803534,115,thermometer,collected
+2021-01-22T22:04:05.799764,116,thermometer,off
+ERROR: 2021-01-22T22:04:05.799764
+2021-01-22T22:04:14.799779,116,thermometer,on
+2021-01-22T22:04:14.803330,116,thermometer,collected
+2021-01-22T22:04:14.807298,116,thermometer,persisted
+2021-01-22T22:04:15.803390,117,thermometer,collected
+2021-01-22T22:04:15.807594,117,thermometer,persisted
+2021-01-22T22:04:16.803494,118,thermometer,collected
+2021-01-22T22:04:16.803775,118,thermometer,sensor accuracy fail
+2021-01-22T22:04:17.803152,119,thermometer,collected
+2021-01-22T22:04:17.808373,119,thermometer,persisted
+2021-01-22T22:04:18.803683,120,thermometer,collected
+2021-01-22T22:04:18.808864,120,thermometer,persisted
+2021-01-22T22:04:19.803395,121,thermometer,collected
+2021-01-22T22:04:19.809165,121,thermometer,persisted
+2021-01-22T22:04:20.799776,122,thermometer,off
+ERROR: 2021-01-22T22:04:20.799776
+2021-01-22T22:04:30.799750,122,thermometer,on
+2021-01-22T22:04:30.803491,122,thermometer,collected
+2021-01-22T22:04:30.814184,122,thermometer,persisted
+2021-01-22T22:04:31.803244,123,thermometer,collected
+2021-01-22T22:04:31.814605,123,thermometer,persisted
+2021-01-22T22:04:32.803600,124,thermometer,collected
+2021-01-22T22:04:32.815007,124,thermometer,persisted
+2021-01-22T22:04:33.802042,125,thermometer,collected
+2021-01-22T22:04:33.815488,125,thermometer,persisted

@@ -32,6 +32,6 @@ gnome-terminal --working-directory=${bsn}/configurations/experiments/p1/target_s
 gnome-terminal --working-directory=${bsn}/configurations/experiments/p1/environment   -e 'roslaunch patient.launch'  #& sleep 30s
 
 ################# SIMULATION #################
-gnome-terminal --working-directory=${bsn}/configurations/experiments/p1/simulation -e 'roslaunch injector.launch' & sleep 60s
+gnome-terminal --working-directory=${bsn}/configurations/experiments/p1/simulation -e 'roslaunch injector.launch' & sleep 300s
 
 rosnode kill -a
