@@ -1,66 +1,62 @@
 
-2021-01-19T21:04:32.190760,1,oximeter,collected
-2021-01-19T21:04:32.191693,1,oximeter,sent
-2021-01-19T21:04:33.175545,2,oximeter,collected
-2021-01-19T21:04:33.176184,2,oximeter,sent
-2021-01-19T21:04:34.175167,3,oximeter,collected
-2021-01-19T21:04:34.175489,3,oximeter,sensor accuracy fail
-2021-01-19T21:04:35.175288,4,oximeter,collected
-2021-01-19T21:04:35.175624,4,oximeter,sent
-2021-01-19T21:04:36.175623,5,oximeter,collected
-2021-01-19T21:04:36.175949,5,oximeter,sent
-2021-01-19T21:04:37.175007,6,oximeter,collected
-2021-01-19T21:04:37.175343,6,oximeter,sensor accuracy fail
-2021-01-19T21:04:38.175749,7,oximeter,collected
-2021-01-19T21:04:38.176129,7,oximeter,sent
-2021-01-19T21:04:39.175093,8,oximeter,collected
-2021-01-19T21:04:39.175422,8,oximeter,sent
-2021-01-19T21:04:40.171893,9,oximeter,off
-2021-01-19T21:04:50.172000,10,oximeter,on
-2021-01-19T21:04:50.175706,11,oximeter,collected
-2021-01-19T21:04:50.175993,11,oximeter,sent
-2021-01-19T21:04:51.175683,12,oximeter,collected
-2021-01-19T21:04:51.176130,12,oximeter,sent
-2021-01-19T21:04:52.176059,13,oximeter,collected
-2021-01-19T21:04:52.176383,13,oximeter,sent
-2021-01-19T21:04:53.175698,14,oximeter,collected
-2021-01-19T21:04:53.176035,14,oximeter,sent
-2021-01-19T21:04:54.175357,15,oximeter,collected
-2021-01-19T21:04:54.175743,15,oximeter,sent
-2021-01-19T21:04:55.176506,16,oximeter,collected
-2021-01-19T21:04:55.176888,16,oximeter,sent
-2021-01-19T21:04:56.175381,17,oximeter,collected
-2021-01-19T21:04:56.176236,17,oximeter,sent
-2021-01-19T21:04:57.171953,18,oximeter,off
-2021-01-19T21:05:07.171997,19,oximeter,on
-2021-01-19T21:05:07.176375,20,oximeter,collected
-2021-01-19T21:05:07.176709,20,oximeter,sent
-2021-01-19T21:05:08.175829,21,oximeter,collected
-2021-01-19T21:05:08.176210,21,oximeter,sent
-2021-01-19T21:05:09.175394,22,oximeter,collected
-2021-01-19T21:05:09.175742,22,oximeter,sent
-2021-01-19T21:05:10.175764,23,oximeter,collected
-2021-01-19T21:05:10.176111,23,oximeter,sent
-2021-01-19T21:05:11.175156,24,oximeter,collected
-2021-01-19T21:05:11.175515,24,oximeter,sent
-2021-01-19T21:05:12.175618,25,oximeter,collected
-2021-01-19T21:05:12.175950,25,oximeter,sent
-2021-01-19T21:05:13.175808,26,oximeter,collected
-2021-01-19T21:05:13.176129,26,oximeter,sent
-2021-01-19T21:05:14.171979,27,oximeter,off
-2021-01-19T21:05:24.172048,28,oximeter,on
-2021-01-19T21:05:24.175570,29,oximeter,collected
-2021-01-19T21:05:24.175895,29,oximeter,sent
-2021-01-19T21:05:25.175519,30,oximeter,collected
-2021-01-19T21:05:25.175889,30,oximeter,sent
-2021-01-19T21:05:26.175499,31,oximeter,collected
-2021-01-19T21:05:26.175915,31,oximeter,sent
-2021-01-19T21:05:27.174910,32,oximeter,collected
-2021-01-19T21:05:27.175217,32,oximeter,sent
-2021-01-19T21:05:28.175499,33,oximeter,collected
-2021-01-19T21:05:28.175951,33,oximeter,sent
-2021-01-19T21:05:29.175852,34,oximeter,collected
-2021-01-19T21:05:29.176797,34,oximeter,sent
-2021-01-19T21:05:30.175055,35,oximeter,collected
-2021-01-19T21:05:30.175451,35,oximeter,sent
-2021-01-19T21:05:31.171927,36,oximeter,off
+2021-01-22T19:52:53.453280,1,oximeter,collected
+2021-01-22T19:52:53.454541,1,oximeter,sent
+2021-01-22T19:52:54.422150,2,oximeter,collected
+2021-01-22T19:52:54.422346,2,oximeter,sent
+2021-01-22T19:52:55.425423,3,oximeter,collected
+2021-01-22T19:52:55.425751,3,oximeter,sensor accuracy fail
+2021-01-22T19:52:56.423551,4,oximeter,collected
+2021-01-22T19:52:56.423848,4,oximeter,sensor accuracy fail
+2021-01-22T19:52:57.424221,5,oximeter,collected
+2021-01-22T19:52:57.424643,5,oximeter,sent
+2021-01-22T19:52:58.423203,6,oximeter,collected
+2021-01-22T19:52:58.423602,6,oximeter,sensor accuracy fail
+2021-01-22T19:52:59.423355,7,oximeter,collected
+2021-01-22T19:52:59.423660,7,oximeter,sensor accuracy fail
+2021-01-22T19:53:00.420396,8,oximeter,off
+2021-01-22T19:53:10.420280,8,oximeter,on
+2021-01-22T19:53:10.424255,8,oximeter,collected
+2021-01-22T19:53:10.424709,8,oximeter,sent
+2021-01-22T19:53:11.424164,9,oximeter,collected
+2021-01-22T19:53:11.424509,9,oximeter,sensor accuracy fail
+2021-01-22T19:53:12.423259,10,oximeter,collected
+2021-01-22T19:53:12.423599,10,oximeter,sent
+2021-01-22T19:53:13.424025,11,oximeter,collected
+2021-01-22T19:53:13.424392,11,oximeter,sent
+2021-01-22T19:53:14.423728,12,oximeter,collected
+2021-01-22T19:53:14.424144,12,oximeter,sent
+2021-01-22T19:53:15.424105,13,oximeter,collected
+2021-01-22T19:53:15.424454,13,oximeter,sent
+2021-01-22T19:53:16.420332,14,oximeter,off
+2021-01-22T19:53:26.420284,14,oximeter,on
+2021-01-22T19:53:26.424185,14,oximeter,collected
+2021-01-22T19:53:26.424451,14,oximeter,sensor accuracy fail
+2021-01-22T19:53:27.424114,15,oximeter,collected
+2021-01-22T19:53:27.424416,15,oximeter,sensor accuracy fail
+2021-01-22T19:53:28.423680,16,oximeter,collected
+2021-01-22T19:53:28.424039,16,oximeter,sent
+2021-01-22T19:53:29.423845,17,oximeter,collected
+2021-01-22T19:53:29.424205,17,oximeter,sent
+2021-01-22T19:53:30.423759,18,oximeter,collected
+2021-01-22T19:53:30.424080,18,oximeter,sensor accuracy fail
+2021-01-22T19:53:31.423560,19,oximeter,collected
+2021-01-22T19:53:31.423927,19,oximeter,sent
+2021-01-22T19:53:32.423882,20,oximeter,collected
+2021-01-22T19:53:32.424216,20,oximeter,sent
+2021-01-22T19:53:33.420342,21,oximeter,off
+2021-01-22T19:53:43.420351,21,oximeter,on
+2021-01-22T19:53:43.423861,21,oximeter,collected
+2021-01-22T19:53:43.424213,21,oximeter,sensor accuracy fail
+2021-01-22T19:53:44.423865,22,oximeter,collected
+2021-01-22T19:53:44.424108,22,oximeter,sensor accuracy fail
+2021-01-22T19:53:45.423555,23,oximeter,collected
+2021-01-22T19:53:45.424034,23,oximeter,sent
+2021-01-22T19:53:46.424006,24,oximeter,collected
+2021-01-22T19:53:46.424277,24,oximeter,sensor accuracy fail
+2021-01-22T19:53:47.423642,25,oximeter,collected
+2021-01-22T19:53:47.423992,25,oximeter,sent
+2021-01-22T19:53:48.423685,26,oximeter,collected
+2021-01-22T19:53:48.424015,26,oximeter,sent
+2021-01-22T19:53:49.423392,27,oximeter,collected
+2021-01-22T19:53:49.423818,27,oximeter,sent
+2021-01-22T19:53:50.420283,28,oximeter,off

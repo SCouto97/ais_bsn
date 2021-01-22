@@ -1,6 +1,6 @@
 #include "component/g3t1_2/G3T1_2.hpp"
 
-#define BATT_UNIT 6
+#define BATT_UNIT 5.899
 
 using namespace bsn::range;
 using namespace bsn::generator;
@@ -133,8 +133,11 @@ void G3T1_2::transfer(const double &m_data) {
         flushData();
 
         acc_failed = true;
-        //this->dataId++;
-        //throw std::domain_error("risk data out of boundaries");
+        if (toggle_exception) {
+            this->dataId++;
+            throw std::domain_error("risk data out of boundaries");
+            std::cout << "data id " << this->dataId <<std::endl;
+        }
     }
 
     if (label(risk) != label(collected_risk)) {
@@ -146,8 +149,12 @@ void G3T1_2::transfer(const double &m_data) {
         flushData();
 
         acc_failed = true;
-        //this->dataId++;
-        //throw std::domain_error("sensor accuracy fail");
+
+        if (toggle_exception) {
+            this->dataId++;
+            throw std::domain_error("sensor accuracy fail");
+            std::cout << "data id " << this->dataId<< std::endl;
+        } 
     }
 
     ros::NodeHandle handle;
@@ -174,6 +181,7 @@ void G3T1_2::transfer(const double &m_data) {
         } else {
             currentStatus = "data in range";
         }
+
         publishStatus();
         flushData();
     }

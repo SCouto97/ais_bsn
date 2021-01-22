@@ -32,11 +32,15 @@ int32_t Sensor::run() {
 
     handle.getParam("property", currentProperty);
 
+    std::cout << "current property: " << currentProperty << std::endl;
+
     filepath = path + "/../logs/"+currentProperty+"/sensors/" +this->type+".log";
 
     fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::trunc);
     fp << "\n";
     fp.close();
+
+    toggle_exception = currentProperty != "p3";
 
     while (ros::ok()) {
         ros::spinOnce();
@@ -81,8 +85,6 @@ void Sensor::body() {
         publishStatus();
         flushData();
 
-        //dataId++;
-
     } else if (isActive() && battery.getCurrentLevel() < 2){
         //Sends info to diagnostics here
         my_posix_time = ros::Time::now().toBoost();
@@ -91,7 +93,6 @@ void Sensor::body() {
         currentStatus = "off";
         flushData();
         publishStatus();
-        //dataId++;
 
         turnOff();        
     }

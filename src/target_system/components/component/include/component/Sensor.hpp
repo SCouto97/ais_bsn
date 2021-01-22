@@ -76,6 +76,7 @@ class Sensor : public arch::target_system::Component {
         std::string currentProperty;
         std::string pathSuffix;
         boost::posix_time::ptime my_posix_time;
+        bool toggle_exception;
 };
 
 #endif 

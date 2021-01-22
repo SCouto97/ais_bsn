@@ -39,7 +39,7 @@ void PropertyAnalyzer::setUp() {
     sensorAlias["/g3t1_4"] = "abps";
     sensorAlias["/g3t1_5"] = "abpd";
  
-    std::cout << "Monitoring property: " << currentProperty << std::endl;
+    std::cout << "Monitoring property: " << currentProperty << " ";
     
     std::string path = ros::package::getPath("diagnostics_analyzer");
 
@@ -48,6 +48,7 @@ void PropertyAnalyzer::setUp() {
     if (currentProperty == "p4") {
         chDetectedSub = nh.subscribe("ch_detected", 100, &PropertyAnalyzer::processCentralhubDetection, this);
         filepath = filepath + "centralhub.log";
+        std::cout << std::endl;
     } else if (currentProperty == "p3") {
         sensorInRangeSub = nh.subscribe("sensor_inrange", 100, &PropertyAnalyzer::processSensorInRange, this);
         filepath = filepath +sensorAlias[currentSensor]+".log";
@@ -130,10 +131,7 @@ void PropertyAnalyzer::processCentralhubDetection(const messages::DiagnosticsDat
 
             outgoingId = msg->id;
             THIRD_reached = true;
-            //if (msg->source == currentProcessed) {
-            //    property_satisfied = currentIdList[msg->source] == msg->id;
-            //}
-            
+
             gotMessage["centralhub"] = true;
             if (prevIdList[msg->source] != currentIdList[msg->source]) flushData(msg);
             prevIdList[msg->source] = currentIdList[msg->source];
@@ -155,7 +153,7 @@ void PropertyAnalyzer::processCentralhubData(const messages::DiagnosticsData::Co
                 if (msg->status == centralhubSignal) {
                     outgoingId = msg->id;
                     THIRD_reached = true;
-                    violation_flag = outgoingId != incomingId;
+                    violation_flag = currentIdList[msg->source] == msg->id;
                 }
 
                 if (currentId != prevId) flushData(msg);
@@ -168,10 +166,6 @@ void PropertyAnalyzer::processCentralhubData(const messages::DiagnosticsData::Co
         if (msg->type == "centralhub") {
             if (msg->status == "processed") {
              
-                std::cout << msg->id << ", ";
-                std::cout << msg->source << ", ";
-                std::cout << msg->status << std::endl;
-
                 incomingId = msg->id;
                 SECOND_reached = true;
                 gotMessage["centralhub_processed"] = true;
@@ -216,7 +210,7 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
                 } else if (msg->status == "off") {
                     OFF_reached = true;
                     flushData(msg);
-                    if (numFails) {
+                    if (!gotMessage["centralhub"] && numFails) {
                         fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
                             fp << "ERROR: "<< msg->timestamp << std::endl;
                         fp.close();
@@ -224,10 +218,10 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
                     }
                 } 
 
+                currentIdList[msg->source] = msg->id;
                 currentId = msg->id;
                 gotMessage["sensor"] = true;
     
-
             } else if (msg->status == "sensor accuracy fail" || msg->status == "out of bounds") {
                 //flushData(msg);
                 gotMessage["sensor"] = true;
@@ -337,11 +331,11 @@ std::string PropertyAnalyzer::yesOrNo(bool state) {
 }
 
 void PropertyAnalyzer::printStack() {
-    //std::cout << "==========================================" << std::endl;
-    //std::cout << "Current state: " << currentState << std::endl;
-    //std::cout << "Incoming: " << incomingId << " Outgoing: " << outgoingId << std::endl;
-    //std::cout << "Property satisfied? " << yesOrNo(property_satisfied) << std::endl;
-    //std::cout << "==========================================" << std::endl;            
+    std::cout << "==========================================" << std::endl;
+    std::cout << "Current state: " << currentState << std::endl;
+    std::cout << "Incoming: " << incomingId << " Outgoing: " << outgoingId << std::endl;
+    std::cout << "Property satisfied? " << yesOrNo(property_satisfied) << std::endl;
+    std::cout << "==========================================" << std::endl;            
 
 }
 
@@ -370,17 +364,14 @@ void PropertyAnalyzer::body() {
                         currentState = "Waiting for data to be " + centralhubSignal;
                         busyWait(stateTypes[1]);
 
-                        if (OFF_reached || violation_flag) {
+                        if (OFF_reached) {
                             OFF_reached = false;
                             wait_third = false;
                             wait_second = true;
+
                             //fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
                             //    fp << "ERROR! Data " +sensorSignal+ ", but not " +centralhubSignal << std::endl;
                             //fp.close();
-                            //if (violation_flag) {
-                            //    property_satisfied = false;
-                            //    violation_flag = false;
-                            //}
                         }
 
                         if (THIRD_reached == true) {

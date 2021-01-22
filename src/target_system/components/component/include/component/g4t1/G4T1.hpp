@@ -73,6 +73,7 @@ class G4T1 : public CentralHub {
         //std::string currentType;
         //std::map<std::string, uint32_t> prevId;
         std::map<std::string, std::map<std::string, uint32_t>> prevId;
+        double batt_unit;
 
 };
 

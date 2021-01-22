@@ -1,7 +1,7 @@
 #include "component/g4t1/G4T1.hpp"
 #define W(x) std::cerr << #x << " = " << x << std::endl;
 
-#define BATT_UNIT 0.001
+//#define BATT_UNIT 0.001
 //#define BATT_UNIT 0.84999
 
 using namespace bsn::processor;
@@ -62,7 +62,9 @@ void G4T1::setUp() {
     double freq;
     nh.getParam("frequency", freq);
     rosComponentDescriptor.setFreq(freq);
+    nh.getParam("batt_consumption", batt_unit);
 
+    std::cout << "batt_consumption: " << batt_unit << std::endl;
     for (std::vector<std::list<double>>::iterator it = data_buffer.begin();
         it != data_buffer.end(); ++it) {
             (*it) = {0.0};
@@ -79,7 +81,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
     double risk = msg->risk;
     double batt = msg->batt;
 
-    battery.consume(BATT_UNIT);
+    battery.consume(batt_unit);
     if (msg->type == "null" || int32_t(risk) == -1)  throw std::domain_error("risk data out of boundaries");
 
     /*update battery status for received sensor info*/
@@ -116,7 +118,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
 }
 
 void G4T1::process() {
-    battery.consume(BATT_UNIT * data_buffer.size());
+    battery.consume(batt_unit * data_buffer.size());
     std::vector<double> current_data;
 
     for(std::vector<std::list<double>>::iterator it = data_buffer.begin(); it != data_buffer.end(); it++) {
@@ -152,7 +154,7 @@ void G4T1::process() {
 
 void G4T1::detect() {
 
-    battery.consume(BATT_UNIT);
+    battery.consume(batt_unit);
 
     if (battery.getCurrentLevel() > 0) {
         getPatientStatus();  
