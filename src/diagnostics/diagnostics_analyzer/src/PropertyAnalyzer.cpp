@@ -234,11 +234,15 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
                 if (msg->status == "ready") {
                     ON_reached = true;
                     numFails = 0;
+                    flushData(msg);
                 } else if (msg->status == sensorSignal) {
                     SECOND_reached = true;
-                    //incomingId = msg->id;
+                    incomingId = msg->id;
+                    flushData(msg);
                 } else if (msg->status == "sent") {
                     OFF_reached = true;
+                    flushData(msg);
+
                     if (numFails)  {
                         violation_flag = true;
                         fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
@@ -249,10 +253,9 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
                 }
 
                 currentId = msg->id;
-                flushData(msg);
                 gotMessage["sensor"] = true;
             
-            } else if (msg->status == "data_inrange") {
+            } else if (msg->status == "data in range") {
                 outgoingId = msg->id;
                 THIRD_reached = true;
                 if (msg->source == currentProcessed) {
@@ -263,9 +266,9 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
 
                 if (currentId != prevId) flushData(msg);
                 prevId = currentId;
-            } else if (msg->status == "sensor accuracy fail" || msg->status == "out of bounds") {
+            } else if (msg->status == "data out of range") {
                 numFails++;
-                flushData(msg);
+                //flushData(msg);
                 gotMessage["sensor"] = true;
             }
         }
