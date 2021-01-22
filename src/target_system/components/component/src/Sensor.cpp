@@ -81,7 +81,7 @@ void Sensor::body() {
         publishStatus();
         flushData();
 
-        dataId++;
+        //dataId++;
 
     } else if (isActive() && battery.getCurrentLevel() < 2){
         //Sends info to diagnostics here
@@ -91,7 +91,7 @@ void Sensor::body() {
         currentStatus = "off";
         flushData();
         publishStatus();
-        dataId++;
+        //dataId++;
 
         turnOff();        
     }

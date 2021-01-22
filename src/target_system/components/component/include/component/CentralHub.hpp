@@ -38,6 +38,7 @@ class CentralHub : public arch::target_system::Component {
 
         virtual void collect(const messages::SensorData::ConstPtr& sensor_data) = 0;
         virtual void process() = 0;
+        virtual void detect() = 0;
         virtual void transfer() = 0;
         void flushData(messages::DiagnosticsData);
 
@@ -61,6 +62,10 @@ class CentralHub : public arch::target_system::Component {
         std::fstream fp;
         std::string filepath;
         std::string foldername;
+        boost::posix_time::ptime my_posix_time;
+        std::string currentType;
+
+        uint32_t currentDataId;
 
 };
 

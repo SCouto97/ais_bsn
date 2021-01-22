@@ -77,6 +77,7 @@ class PropertyAnalyzer {
         std::map<std::string, uint32_t> prevIdList, currentIdList;
         std::map<std::string, std::string> prevStatusList, currentStatusList;
         std::map<std::string, uint32_t> expectedMessage;
+        std::map<std::string, std::map<uint32_t, bool>> centralhubDetected;
 
         uint32_t incomingId;
         uint32_t outgoingId;

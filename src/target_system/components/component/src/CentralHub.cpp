@@ -65,20 +65,24 @@ void CentralHub::body() {
     if (!isActive() && battery.getCurrentLevel() > 90){
         turnOn();
         
-        msg.id = 0;
-        msg.source = "centralhub";
-        msg.status = "on";
         my_posix_time = ros::Time::now().toBoost();
         timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+        msg.id = 0;
+        msg.source = "centralhub";
+        msg.type = "centralhub";
+        msg.status = "on";
+        msg.timestamp = timestamp;
         statusPub.publish(msg);
         
         flushData(msg);
-    } else if (isActive() && battery.getCurrentLevel() < 2){
-        msg.id = 0;
-        msg.type = "centralhub";
-        msg.status = "off";
+    } else if (isActive() && battery.getCurrentLevel() < 0.1){
         my_posix_time = ros::Time::now().toBoost();
         timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+        msg.id = currentDataId;
+        msg.source = currentType;
+        msg.type = "centralhub";
+        msg.status = "off";
+        msg.timestamp = timestamp;
         statusPub.publish(msg);
         
         flushData(msg);
@@ -89,7 +93,8 @@ void CentralHub::body() {
     if(isActive()) {
         if(total_buffer_size > 0){
             apply_noise();
-            process();            
+            process(); 
+            detect();           
             transfer();
             
             sendStatus("success");

@@ -125,31 +125,22 @@ void PropertyAnalyzer::processSensorInRange(const messages::DiagnosticsData::Con
 
 void PropertyAnalyzer::processCentralhubDetection(const messages::DiagnosticsData::ConstPtr& msg) {
     if (currentProperty == "p4") {
-        if (msg->status == "on" || 
-            msg->status == "processed" || 
-            msg->status == "detected" || 
-            msg->status == "off") {
+
+        if (msg->status == "detected") {
+
+            outgoingId = msg->id;
+            THIRD_reached = true;
+            //if (msg->source == currentProcessed) {
+            //    property_satisfied = currentIdList[msg->source] == msg->id;
+            //}
             
             gotMessage["centralhub"] = true;
-
-            if (msg->status == "detected") {
-
-                outgoingId = msg->id;
-                THIRD_reached = true;
-                if (property_satisfied && msg->source == currentProcessed) {
-                    property_satisfied = currentIdList[msg->source] == msg->id;
-                }
-                gotMessage["centralhub"] = true;
-                
-            } else if (msg->status == "on") {
-                ON_reached = true;
-            } else if (msg->status == "off") {
-                OFF_reached = true;
-            }
-
             if (prevIdList[msg->source] != currentIdList[msg->source]) flushData(msg);
             prevIdList[msg->source] = currentIdList[msg->source];
-        }
+
+            centralhubDetected[msg->source][msg->id] = true;
+        } 
+
     }
 }
 
@@ -172,20 +163,37 @@ void PropertyAnalyzer::processCentralhubData(const messages::DiagnosticsData::Co
                 gotMessage["centralhub"] = true;
 
             }
-        }   //else if (msg->type == "centralhub") {
-            //gotMessage["centralhub"] = true;
-            //}
+        }
     } else if (currentProperty == "p4") {
         if (msg->type == "centralhub") {
             if (msg->status == "processed") {
+             
+                std::cout << msg->id << ", ";
+                std::cout << msg->source << ", ";
+                std::cout << msg->status << std::endl;
+
                 incomingId = msg->id;
                 SECOND_reached = true;
                 gotMessage["centralhub_processed"] = true;
                 currentIdList[msg->source] = msg->id;
                 currentProcessed = msg->source;
+            
+                centralhubDetected[msg->source][msg->id] = false;
                 if (currentIdList[msg->source] != prevIdList[msg->source]) flushData(msg);
-            } else if (msg->status == "persisted") {
+            
+            } else if (msg->status ==  "on") {
+            
+                ON_reached = true;
                 flushData(msg);
+            } else if (msg->status == "off") {
+            
+                OFF_reached = true;
+                flushData(msg);
+                if (!centralhubDetected[msg->source][msg->id]) {
+                    fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
+                        fp << "ERROR: "<< msg->timestamp << std::endl;
+                    fp.close();
+                }
             }
         }
     }
@@ -329,11 +337,11 @@ std::string PropertyAnalyzer::yesOrNo(bool state) {
 }
 
 void PropertyAnalyzer::printStack() {
-    std::cout << "==========================================" << std::endl;
-    std::cout << "Current state: " << currentState << std::endl;
-    std::cout << "Incoming: " << incomingId << " Outgoing: " << outgoingId << std::endl;
-    std::cout << "Property satisfied? " << yesOrNo(property_satisfied) << std::endl;
-    std::cout << "==========================================" << std::endl;            
+    //std::cout << "==========================================" << std::endl;
+    //std::cout << "Current state: " << currentState << std::endl;
+    //std::cout << "Incoming: " << incomingId << " Outgoing: " << outgoingId << std::endl;
+    //std::cout << "Property satisfied? " << yesOrNo(property_satisfied) << std::endl;
+    //std::cout << "==========================================" << std::endl;            
 
 }
 
