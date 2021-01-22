@@ -198,15 +198,16 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
                 msg->status == sensorSignal || 
                 msg->status == "off") {
 
-                flushData(msg);
-
                 if (msg->status == "on") {
                     ON_reached = true;
+                    flushData(msg);
                 } else if (msg->status == sensorSignal) {
                     SECOND_reached = true;
                     incomingId = msg->id;
+                    flushData(msg);
                 } else if (msg->status == "off") {
                     OFF_reached = true;
+                    flushData(msg);
                     if (numFails) {
                         fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
                             fp << "ERROR: "<< msg->timestamp << std::endl;
@@ -220,7 +221,7 @@ void PropertyAnalyzer::processSensorData(const messages::DiagnosticsData::ConstP
     
 
             } else if (msg->status == "sensor accuracy fail" || msg->status == "out of bounds") {
-                flushData(msg);
+                //flushData(msg);
                 gotMessage["sensor"] = true;
                 numFails++;
             }
