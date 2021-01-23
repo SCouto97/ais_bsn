@@ -39,9 +39,8 @@ class G4T1 : public CentralHub {
 
         virtual void collect(const messages::SensorData::ConstPtr& sensor_data);
         virtual void process();
+        virtual void detect();
         virtual void transfer();
-
-        void processDiagnostics(const messages::DiagnosticsData::ConstPtr& msg);
 
     private:
         double patient_status;
@@ -70,9 +69,11 @@ class G4T1 : public CentralHub {
 
         bool lost_packt;
 
-        int32_t currentDataId;
-        std::string currentType;
-        std::map<std::string, uint32_t> prevId;
+        //int32_t currentDataId;
+        //std::string currentType;
+        //std::map<std::string, uint32_t> prevId;
+        std::map<std::string, std::map<std::string, uint32_t>> prevId;
+        double batt_unit;
 
 };
 

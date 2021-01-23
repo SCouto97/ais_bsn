@@ -1,7 +1,8 @@
 #include "component/g4t1/G4T1.hpp"
 #define W(x) std::cerr << #x << " = " << x << std::endl;
 
-#define BATT_UNIT 0.001
+//#define BATT_UNIT 0.001
+//#define BATT_UNIT 0.84999
 
 using namespace bsn::processor;
 
@@ -61,14 +62,16 @@ void G4T1::setUp() {
     double freq;
     nh.getParam("frequency", freq);
     rosComponentDescriptor.setFreq(freq);
+    nh.getParam("batt_consumption", batt_unit);
 
+    std::cout << "batt_consumption: " << batt_unit << std::endl;
     for (std::vector<std::list<double>>::iterator it = data_buffer.begin();
         it != data_buffer.end(); ++it) {
             (*it) = {0.0};
     }
 
     pub = nh.advertise<messages::TargetSystemData>("TargetSystemData", 10);
-    chDetectPub = nh.advertise<messages::CentralhubDiagnostics>("ch_detected", 10);
+    chDetectPub = nh.advertise<messages::DiagnosticsData>("ch_detected", 10);
 }
 
 void G4T1::tearDown() {}
@@ -78,7 +81,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
     double risk = msg->risk;
     double batt = msg->batt;
 
-    battery.consume(BATT_UNIT);
+    battery.consume(batt_unit);
     if (msg->type == "null" || int32_t(risk) == -1)  throw std::domain_error("risk data out of boundaries");
 
     /*update battery status for received sensor info*/
@@ -115,7 +118,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
 }
 
 void G4T1::process() {
-    battery.consume(BATT_UNIT * data_buffer.size());
+    battery.consume(batt_unit * data_buffer.size());
     std::vector<double> current_data;
 
     for(std::vector<std::list<double>>::iterator it = data_buffer.begin(); it != data_buffer.end(); it++) {
@@ -132,68 +135,77 @@ void G4T1::process() {
 
     // std::vector<std::string> risks;
 
-    boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
-    timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
 
-    messages::CentralhubDiagnostics diagMsg;
-    diagMsg.id = currentDataId;
-    diagMsg.type = "sensor";
-    diagMsg.source = currentType;
-    diagMsg.status = "processed";
-    diagMsg.timestamp = timestamp;
-    statusPub.publish(diagMsg);
+        my_posix_time = ros::Time::now().toBoost();
+        timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
 
-    diagMsg.id = currentDataId;
-    diagMsg.type = "centralhub";
-    statusPub.publish(diagMsg);
-    
-    if (prevId[currentType] != currentDataId) flushData(diagMsg);
-
-    getPatientStatus();
-
-    my_posix_time = ros::Time::now().toBoost();
-    timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
-
-    diagMsg.id = currentDataId;
-    diagMsg.status = "detected";
-    diagMsg.type = "centralhub";
-    diagMsg.timestamp = timestamp;        
-    chDetectPub.publish(diagMsg);
-
-    if (prevId[currentType] != currentDataId) flushData(diagMsg);
-
-    std::string patient_risk;
-
-    if(patient_status <= 20) {
-        patient_risk = "VERY LOW RISK";
-    } else if(patient_status > 20 && patient_status <= 40) {
-        patient_risk = "LOW RISK";
-    } else if(patient_status > 40 && patient_status <= 60) {
-        patient_risk = "MODERATE RISK";
-    } else if(patient_status > 60 && patient_status <= 80) {
-        patient_risk = "CRITICAL RISK";
-    } else if(patient_status > 80 && patient_status <= 100) {
-        patient_risk = "VERY CRITICAL RISK";
+    if (prevId[currentType]["processed"] != currentDataId) {
+        messages::DiagnosticsData diagMsg;
+        diagMsg.id = currentDataId;
+        diagMsg.type = "centralhub";
+        diagMsg.source = currentType;
+        diagMsg.status = "processed";
+        diagMsg.timestamp = timestamp;
+        statusPub.publish(diagMsg);
+        flushData(diagMsg);
     }
-
-    std::cout << std::endl << "*****************************************" << std::endl;
-    std::cout << "PatientStatusInfo#" << std::endl;
-    std::cout << "| THERM_RISK: " << trm_risk << std::endl;
-    std::cout << "| ECG_RISK: " << ecg_risk << std::endl;
-    std::cout << "| OXIM_RISK: " << oxi_risk << std::endl;
-    std::cout << "| ABPS_RISK: " << abps_risk << std::endl;
-    std::cout << "| ABPD_RISK: " << abpd_risk << std::endl;
-    std::cout << "| PATIENT_STATE:" << patient_risk << std::endl;
-    std::cout << "*****************************************" << std::endl; 
+    prevId[currentType]["processed"] = currentDataId;
 }
 
-//void G4T1::processDiagnostics(const messages::DiagnosticsData::ConstPtr& msg) {
-//    std::cout << "id: " + msg->id;
-//    std::cout << ",from: " + msg->sensor;
-//    std::cout << ", in state: " + msg->state;
-//    std::cout << ", data: " << msg->data << std::endl;
-//    return;
-//}
+void G4T1::detect() {
+
+    battery.consume(batt_unit);
+
+    if (battery.getCurrentLevel() > 0) {
+        getPatientStatus();  
+
+        std::string patient_risk;
+
+        if(patient_status <= 20) {
+            patient_risk = "VERY LOW RISK";
+        } else if(patient_status > 20 && patient_status <= 40) {
+            patient_risk = "LOW RISK";
+        } else if(patient_status > 40 && patient_status <= 60) {
+            patient_risk = "MODERATE RISK";
+        } else if(patient_status > 60 && patient_status <= 80) {
+            patient_risk = "CRITICAL RISK";
+        } else if(patient_status > 80 && patient_status <= 100) {
+            patient_risk = "VERY CRITICAL RISK";
+        }
+
+        if (prevId[currentType]["detected"] != currentDataId) { 
+            messages::DiagnosticsData msg;
+            my_posix_time = ros::Time::now().toBoost();
+            timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+            msg.id = currentDataId;
+            msg.type = "centralhub";
+            msg.source = currentType;
+            msg.status = "detected";
+            msg.timestamp = timestamp;        
+            chDetectPub.publish(msg);
+            flushData(msg);
+        }
+        prevId[currentType]["detected"] = currentDataId;
+
+        std::cout << std::endl << "*****************************************" << std::endl;
+        std::cout << "PatientStatusInfo#" << std::endl;
+        std::cout << "| THERM_RISK: " << trm_risk << std::endl;
+        std::cout << "| ECG_RISK: " << ecg_risk << std::endl;
+        std::cout << "| OXIM_RISK: " << oxi_risk << std::endl;
+        std::cout << "| ABPS_RISK: " << abps_risk << std::endl;
+        std::cout << "| ABPD_RISK: " << abpd_risk << std::endl;
+        std::cout << "| PATIENT_STATE:" << patient_risk << std::endl;
+        std::cout << "*****************************************" << std::endl; 
+
+    } else {
+        messages::DiagnosticsData msg;
+        msg.id = currentDataId;
+        msg.source = currentType;
+        msg.type = "centralhub";
+        msg.status = "undetected";
+        chDetectPub.publish(msg);
+    }
+}
 
 int32_t G4T1::getSensorId(std::string type) {
     if (type == "thermometer")
@@ -213,46 +225,51 @@ int32_t G4T1::getSensorId(std::string type) {
 }
 
 void G4T1::transfer() {
-    messages::TargetSystemData msg;
 
-    msg.trm_batt = trm_batt;
-    msg.ecg_batt = ecg_batt;
-    msg.oxi_batt = oxi_batt;
-    msg.abps_batt = abps_batt;
-    msg.abpd_batt = abpd_batt;
+    if (battery.getCurrentLevel() > 0) {
+        messages::TargetSystemData msg;
 
-    msg.trm_risk = trm_risk;
-    msg.ecg_risk = ecg_risk;
-    msg.oxi_risk = oxi_risk;
-    msg.abps_risk = abps_risk;
-    msg.abpd_risk = abpd_risk;
-    
-    msg.trm_data = trm_raw;
-    msg.ecg_data = ecg_raw;
-    msg.oxi_data = oxi_raw;
-    msg.abps_data = abps_raw;
-    msg.abpd_data = abpd_raw;
+        msg.trm_batt = trm_batt;
+        msg.ecg_batt = ecg_batt;
+        msg.oxi_batt = oxi_batt;
+        msg.abps_batt = abps_batt;
+        msg.abpd_batt = abpd_batt;
 
-    msg.patient_status = patient_status;
+        msg.trm_risk = trm_risk;
+        msg.ecg_risk = ecg_risk;
+        msg.oxi_risk = oxi_risk;
+        msg.abps_risk = abps_risk;
+        msg.abpd_risk = abpd_risk;
+        
+        msg.trm_data = trm_raw;
+        msg.ecg_data = ecg_raw;
+        msg.oxi_data = oxi_raw;
+        msg.abps_data = abps_raw;
+        msg.abpd_data = abpd_raw;
 
-    pub.publish(msg);
+        msg.patient_status = patient_status;
 
-    messages::CentralhubDiagnostics diagMsg;
-    boost::posix_time::ptime my_posix_time = ros::Time::now().toBoost();
-    timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
-    
-    diagMsg.id = currentDataId;
-    diagMsg.type = "sensor";
-    diagMsg.source = currentType;
-    diagMsg.status = "persisted";
-    diagMsg.timestamp = timestamp;
-    statusPub.publish(diagMsg);
+        pub.publish(msg);
 
-    if (prevId[currentType] != currentDataId) flushData(diagMsg);
-    prevId[currentType] = currentDataId;
+        if (prevId[currentType]["persisted"] != currentDataId)  {
+            messages::DiagnosticsData diagMsg;
+            my_posix_time = ros::Time::now().toBoost();
+            timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+        
+            diagMsg.id = currentDataId;
+            diagMsg.type = "centralhub";
+            diagMsg.source = currentType;
+            diagMsg.status = "persisted";
+            diagMsg.timestamp = timestamp;
+            statusPub.publish(diagMsg);
+            flushData(diagMsg);
+        }
 
-    if (lost_packt) {
-        lost_packt = false;
-        throw std::domain_error("lost data due to package overflow");
+        prevId[currentType]["persisted"] = currentDataId;
+
+        if (lost_packt) {
+            lost_packt = false;
+            throw std::domain_error("lost data due to package overflow");
+        }
     }
 }

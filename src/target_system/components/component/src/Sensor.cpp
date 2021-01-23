@@ -32,11 +32,15 @@ int32_t Sensor::run() {
 
     handle.getParam("property", currentProperty);
 
+    std::cout << "current property: " << currentProperty << std::endl;
+
     filepath = path + "/../logs/"+currentProperty+"/sensors/" +this->type+".log";
 
     fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::trunc);
     fp << "\n";
     fp.close();
+
+    toggle_exception = currentProperty != "p3";
 
     while (ros::ok()) {
         ros::spinOnce();
@@ -53,12 +57,12 @@ int32_t Sensor::run() {
     return 0;
 }
 
-void Sensor::flushData(messages::DiagnosticsData msg) {
+void Sensor::flushData() {
     fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
-    fp << msg.timestamp << ",";
-    fp << msg.id << ",";
-    fp << msg.source << ",";
-    fp << msg.status << std::endl;
+    fp << this->timestamp << ",";
+    fp << this->dataId << ",";
+    fp << this->type << ",";
+    fp << this->currentStatus << std::endl;
     fp.close();
 
     return;
@@ -76,25 +80,19 @@ void Sensor::body() {
         turnOn();
         my_posix_time = ros::Time::now().toBoost();
         timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
-        msg.id = dataId;
-        msg.status = "on";
-        msg.timestamp = timestamp;
 
-        flushData(msg);
-
-        statusPub.publish(msg);
-        dataId++;
+        currentStatus = "on";
+        publishStatus();
+        flushData();
 
     } else if (isActive() && battery.getCurrentLevel() < 2){
         //Sends info to diagnostics here
         my_posix_time = ros::Time::now().toBoost();
         timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
-        msg.id = dataId;
-        msg.status = "off";
-        msg.timestamp = timestamp;
-        flushData(msg);
-        statusPub.publish(msg);
-        dataId++;
+
+        currentStatus = "off";
+        flushData();
+        publishStatus();
 
         turnOff();        
     }
@@ -106,12 +104,9 @@ void Sensor::body() {
             my_posix_time = ros::Time::now().toBoost();
             timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
 
-            msg.id = this->dataId;
-            msg.source = this->type;
-            msg.status = "ready";
-            msg.timestamp = timestamp;
-            flushData(msg);
-            statusPub.publish(msg);
+            currentStatus = "ready";
+            flushData();
+            publishStatus();
         }
            
         data = collect();
@@ -135,6 +130,17 @@ void Sensor::body() {
         recharge();
         throw std::domain_error("out of charge");
     }
+}
+
+void Sensor::publishStatus() {
+    messages::DiagnosticsData msg;
+
+    msg.id = this->dataId;
+    msg.type = "sensor";
+    msg.source = this->type;
+    msg.status = this->currentStatus;
+    msg.timestamp = this->timestamp;
+    statusPub.publish(msg);
 }
 
 /*
@@ -217,7 +223,7 @@ void Sensor::turnOff() {
 */
 void Sensor::recharge() {
     if(battery.getCurrentLevel() <= 100) {
-        battery.generate(5);
+        battery.generate(10);
         // battery.generate((100/2000)/rosComponentDescriptor.getFreq());
     }
 }

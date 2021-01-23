@@ -3,5 +3,6 @@
 
     <param name="frequency" value="5" /> <!-- 1 Hz  -->
     <param name="property" value="p4"/>
+    <param name="batt_consumption" value="0.8759" />
 
 </launch>

@@ -14,15 +14,8 @@ int32_t CentralHub::run() {
     ros::Subscriber abpsSub = nh.subscribe("abps_data", 10, &CentralHub::collect, this);
     ros::Subscriber abpdSub = nh.subscribe("abpd_data", 10, &CentralHub::collect, this);
 
-    statusPub = nh.advertise<messages::CentralhubDiagnostics>("centralhub_diagnostics", 100);
+    statusPub = nh.advertise<messages::DiagnosticsData>("centralhub_diagnostics", 100);
 
-    messages::CentralhubDiagnostics msg;
-    msg.id = 0;
-    msg.type = "centralhub";
-    msg.source = "centralhub";
-    msg.status = "on";
-
-    statusPub.publish(msg);
 
     std::string path = ros::package::getPath("diagnostics_analyzer");
     nh.getParam("property", foldername);
@@ -52,7 +45,7 @@ int32_t CentralHub::run() {
     return 0;
 }
 
-void CentralHub::flushData(messages::CentralhubDiagnostics msg) {
+void CentralHub::flushData(messages::DiagnosticsData msg) {
     fp.open(filepath, std::fstream::in | std::fstream::out | std::fstream::app);
     fp << msg.timestamp << ",";
     fp << msg.id << ",";
@@ -65,27 +58,31 @@ void CentralHub::flushData(messages::CentralhubDiagnostics msg) {
 void CentralHub::body() {
     ros::spinOnce(); //calls collect() if there's data in the topics
 
-    messages::CentralhubDiagnostics msg;
+    messages::DiagnosticsData msg;
     int32_t dataId;
     boost::posix_time::ptime my_posix_time;
 
     if (!isActive() && battery.getCurrentLevel() > 90){
         turnOn();
         
-        msg.id = 0;
-        msg.source = "centralhub";
-        msg.status = "on";
         my_posix_time = ros::Time::now().toBoost();
         timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+        msg.id = 0;
+        msg.source = "centralhub";
+        msg.type = "centralhub";
+        msg.status = "on";
+        msg.timestamp = timestamp;
         statusPub.publish(msg);
         
         flushData(msg);
-    } else if (isActive() && battery.getCurrentLevel() < 2){
-        msg.id = 0;
-        msg.type = "centralhub";
-        msg.status = "off";
+    } else if (isActive() && battery.getCurrentLevel() < 0.1){
         my_posix_time = ros::Time::now().toBoost();
         timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+        msg.id = currentDataId;
+        msg.source = currentType;
+        msg.type = "centralhub";
+        msg.status = "off";
+        msg.timestamp = timestamp;
         statusPub.publish(msg);
         
         flushData(msg);
@@ -96,7 +93,8 @@ void CentralHub::body() {
     if(isActive()) {
         if(total_buffer_size > 0){
             apply_noise();
-            process();            
+            process(); 
+            detect();           
             transfer();
             
             sendStatus("success");

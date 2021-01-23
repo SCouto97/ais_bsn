@@ -1,6 +1,6 @@
 #include "component/g3t1_2/G3T1_2.hpp"
 
-#define BATT_UNIT 0.3
+#define BATT_UNIT 5.899
 
 using namespace bsn::range;
 using namespace bsn::generator;
@@ -20,8 +20,9 @@ void G3T1_2::setUp() {
     Component::setUp();
     
     std::string s;
-    
+
     std::array<bsn::range::Range,5> ranges;
+
     { // Configure markov chain
         std::vector<std::string> lrs,mrs0,hrs0,mrs1,hrs1;
 
@@ -81,7 +82,7 @@ double G3T1_2::collect() {
     ros::ServiceClient client = handle.serviceClient<services::PatientData>("getPatientData");
     services::PatientData srv;
     messages::DiagnosticsData msg;
-    
+
     srv.request.vitalSign = "heart_rate";
 
     if (client.call(srv)) {
@@ -90,19 +91,17 @@ double G3T1_2::collect() {
     } else {
         ROS_INFO("error collecting data");
     }
+
     battery.consume(BATT_UNIT);
     collected_risk = sensorConfig.evaluateNumber(m_data);
 
     my_posix_time = ros::Time::now().toBoost();
     timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
 
-    msg.id = this->dataId;
-    msg.source = this->type;
-    msg.status = "collected";
-    msg.timestamp = timestamp;
-    statusPub.publish(msg);
+    currentStatus = "collected";
+    publishStatus();
+    flushData();
 
-    flushData(msg);
 
     return m_data;
 }
@@ -123,17 +122,44 @@ void G3T1_2::transfer(const double &m_data) {
     double risk;
     risk = sensorConfig.evaluateNumber(m_data);
 
+    bool acc_failed = false;
+
     if (risk < 0 || risk > 100) {
-        this->dataId++;
-        throw std::domain_error("risk data out of boundaries");
-    }    
+        my_posix_time = ros::Time::now().toBoost();
+        timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+
+        currentStatus = "out of bounds";
+        publishStatus();
+        flushData();
+
+        acc_failed = true;
+        if (toggle_exception) {
+            this->dataId++;
+            throw std::domain_error("risk data out of boundaries");
+            std::cout << "data id " << this->dataId <<std::endl;
+        }
+    }
+
     if (label(risk) != label(collected_risk)) {
-        this->dataId++;
-        throw std::domain_error("sensor accuracy fail");
+        my_posix_time = ros::Time::now().toBoost();
+        timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
+
+        currentStatus = "sensor accuracy fail";
+        publishStatus();
+        flushData();
+
+        acc_failed = true;
+
+        if (toggle_exception) {
+            this->dataId++;
+            throw std::domain_error("sensor accuracy fail");
+            std::cout << "data id " << this->dataId<< std::endl;
+        } 
     }
 
     ros::NodeHandle handle;
     data_pub = handle.advertise<messages::SensorData>("ecg_data", 10);
+
     messages::SensorData msg;
     messages::DiagnosticsData statusMsg;
 
@@ -146,27 +172,27 @@ void G3T1_2::transfer(const double &m_data) {
     data_pub.publish(msg);
     battery.consume(BATT_UNIT);
 
-    statusMsg.id = this->dataId;
-    statusMsg.source = this->type;
-
     if (currentProperty == "p3") {
         my_posix_time = ros::Time::now().toBoost();
         timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
-        statusMsg.status = "data_inrange";
-        statusMsg.timestamp = timestamp;
-        statusPub.publish(statusMsg);
-        flushData(statusMsg);
+        
+        if (acc_failed) {
+            currentStatus = "data out of range";
+        } else {
+            currentStatus = "data in range";
+        }
+
+        publishStatus();
+        flushData();
     }
 
     my_posix_time = ros::Time::now().toBoost();
     timestamp = boost::posix_time::to_iso_extended_string(my_posix_time);
 
-    statusMsg.status = "sent";
-    statusMsg.timestamp = timestamp;
-    statusPub.publish(statusMsg);
-
-    flushData(statusMsg);
-
+    currentStatus = "sent";
+    publishStatus();
+    flushData();
+    
     this->dataId++;
 
     ROS_INFO("risk calculated and transferred: [%.2f%%]", risk);   
