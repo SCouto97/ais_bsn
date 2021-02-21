@@ -18,8 +18,6 @@ The image above represents the Goal Model of the BSN. The contexts considered in
 
 This is a Body Sensor Network implementation on ROS. So far, the BSN was used for experimentation on solutions for adaptation on the Self-Adaptive Software Systems domain, refer to https://doi.org/10.1145/3194133.3194147 and https://doi.org/10.1109/SEAMS.2019.00020 for more information. The following instructions will guide you to to compile, deploy and run the BSN on Linux Ubuntu 18.04 with ROS Melodic distributions. We have not yet tested on other distributions.
 
-Virtual machine with bsn: https://drive.google.com/file/d/1G1A5_VIuqTvzTUchiGsM7bAMVYl6eE15/view
-
 ## Dependencies:
 * [Ros Melodic](http://wiki.ros.org/melodic) which provides software libraries for BSN engines.
 * [Lepton](https://github.com/rdinizcal/lepton) ("lightweight expression parser") is a small C++ library for parsing, evaluating, differentiating, and analyzing mathematical expressions.
